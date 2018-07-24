@@ -6,7 +6,6 @@ clean_magento_tmp_cache()
 	sudo rm -Rf /tmp/magento/var/cache/*
 	sudo rm -Rf /tmp/magento
 	sudo rm /tmp/zend_cache---* -Rf
-
 }
 
 clean_magento_var_cache()
@@ -15,7 +14,6 @@ clean_magento_var_cache()
 	# sudo rm var/cache/* -Rf
 	sudo rm var/cache/mage--* -Rf
 }
-
 
 clean_magento_var_session()
 {
@@ -30,13 +28,11 @@ clean_magento_magerun_cache()
 	magerun cache:flush
 }
  
-
 clean_magento_redis_cache()
 {
 	echo "[STEP 5] cleaning redis";
 	redis-cli flushall
 }
-
 
 clean_magento_opcache_cache()
 {
@@ -45,8 +41,7 @@ clean_magento_opcache_cache()
 	php -r 'opcache_reset();'
 }
 
-
-if [ "$@" =  'all' ]; then
+if printf -- '%s' "$@" | egrep -q -- "all"; then
 
 	echo "### EVERYTHING ###";
 	clean_magento_tmp_cache
@@ -55,10 +50,10 @@ if [ "$@" =  'all' ]; then
 	clean_magento_magerun_cache
 	clean_magento_redis_cache
 	clean_magento_opcache_cache
-	
+
 fi
 
-if [ "$@" =  'min' ]; then
+if printf -- '%s' "$@" | egrep -q -- "min" ; then
 
 	clean_magento_tmp_cache
 	clean_magento_var_cache
@@ -66,21 +61,21 @@ if [ "$@" =  'min' ]; then
 
 fi
 
-if [ "$@" =  'redis' ]; then
+if printf -- '%s' "$@" | egrep -q -- "redis" ; then
 
 	clean_magento_redis_cache
 
 fi
 
-if [ "$@" =  'opcache' ]; then
+if printf -- '%s' "$@" | egrep -q -- "opcache" ; then
 
 	clean_magento_opcache_cache
 
 fi
 
-
-if [ "$@" =  'session' ]; then
+if printf -- '%s' "$@" | egrep -q -- "session" ; then
 
 	clean_magento_var_session
 
 fi
+
